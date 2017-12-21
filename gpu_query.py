@@ -22,7 +22,7 @@ def get_gpu_info():
         pid = p["pid"]
         username = ps.get_username_from_pid(pid) 
         p["username"] = username
-    return process
+    return state, process
 
 if __name__ == "__main__":
     print (get_gpu_info())
