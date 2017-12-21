@@ -16,7 +16,7 @@ def get_loc_value(loc_str, pattern, context):
     right = loc_i
     while left > 0 and context[left - 1] != ' ':
         left -= 1
-    while right + 1 < len(ep) and context[right + 1] != ' ':
+    while right + 1 < len(context) and context[right + 1] != ' ':
         right += 1
     return context[left:right + 1].strip() 
 
@@ -38,21 +38,18 @@ def get_loc_value2(loc_str, context):
 
 
 def get_username_from_pid(pid):
-    try:
-        if LINUX:
-            return psutil.Process(pid).username()
-        cmd = 'tasklist /FI "PID eq %d"' % pid
-        lines = os.popen(cmd).readlines()
-                
-        pname = get_loc_value2("Image Name", lines[1:])
-        sid = int(get_loc_value2("Session#", lines[1:]))
-                        
-        cmd = 'query session %d' % sid
-        lines = os.popen(cmd).readlines()
-        username = get_loc_value("USERNAME", lines[0], lines[1])
-        return username, pname
-    except:
-        return "", ""
+	if LINUX:
+		return psutil.Process(pid).username()
+	cmd = 'tasklist /FI "PID eq %d"' % pid
+	lines = os.popen(cmd).readlines()
+			
+	pname = get_loc_value2("Image Name", lines[1:])
+	sid = int(get_loc_value2("Session#", lines[1:]))
+					
+	cmd = 'query session %d' % sid
+	lines = os.popen(cmd).readlines()
+	username = get_loc_value("USERNAME", lines[0], lines[1])
+	return username, pname
 
 if __name__ == "__main__":
     pid = os.getpid()
