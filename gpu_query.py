@@ -20,8 +20,9 @@ def get_gpu_info():
 
     for i, p in enumerate(process):
         pid = p["pid"]
-        username = ps.get_username_from_pid(pid) 
+        username, pname = ps.get_username_from_pid(pid) 
         p["username"] = username
+        p["name"] = pname
     return state, process
 
 if __name__ == "__main__":
