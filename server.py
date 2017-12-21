@@ -20,7 +20,10 @@ def query():
         js_sent = json.dumps([state, process])
         return jsonify(js_sent)
     elif opcode == "update_oh_my_gpu":
+        print ("Update oh-my-gpu")
         os.system("git pull")
+        print ("Update Finished")
+    print ("Invalid Code: {}".format(opcode))
     return ""
 
 if __name__ == '__main__':
