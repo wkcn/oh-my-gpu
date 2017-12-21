@@ -25,7 +25,7 @@ def get_gpu_info():
         print (d)
 
 def update_oh_my_gpu():
-    send_json({"opcode" : "update_h_my_gpu"})
+    send_json({"opcode" : "update_oh_my_gpu"})
 
 get_gpu_info()
 update_oh_my_gpu()
