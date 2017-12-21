@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 import config
 
 PORT = config.PORT 
-HOST_IP = socket.gethostbyname(socket.gethostname())
+HOST_IP = "0.0.0.0" 
 print ("HOST IP: {}".format(HOST_IP))
 
 app = Flask(__name__)
