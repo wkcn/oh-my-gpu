@@ -19,8 +19,9 @@ def query():
         state, process = gpu_query.get_gpu_info()
         js_sent = json.dumps([state, process])
         return jsonify(js_sent)
-    elif opcde == "update_oh_my_gpu":
+    elif opcode == "update_oh_my_gpu":
         os.system("git pull")
+    return ""
 
 if __name__ == '__main__':
     app.run(host = HOST_IP, port = PORT, debug = True)
