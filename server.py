@@ -2,8 +2,9 @@ import gpu_query
 import socket
 import json
 from flask import Flask, request, jsonify
+import config
 
-PORT = 690
+PORT = config.PORT 
 HOST_IP = socket.gethostbyname(socket.gethostname())
 print ("HOST IP: {}".format(HOST_IP))
 

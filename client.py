@@ -1,19 +1,18 @@
-import socket
 import json
 import requests
+import config
 
-PORT = 690
-HOST_IP = socket.gethostbyname(socket.gethostname())
-print ("HOST IP: {}".format(HOST_IP))
-
-# for test
-SERVER_IP = HOST_IP
+PORT = config.PORT 
+SERVER_IP = config.SERVER_IP
 
 SERVER_ADDRESS = "http://{}:{}".format(SERVER_IP, PORT) 
 print (SERVER_ADDRESS)
 
+QUERY_ADDR = SERVER_ADDRESS + '/query'
+
 data = {"opcode" : 0}
-req = requests.post(SERVER_ADDRESS + "/query", json = data)
+headers = {'Content-Type': 'application/json'}
+req = requests.post(QUERY_ADDR, data = json.dumps(data).encode(), headers = headers)
 js_recv = json.loads(req.json())
 state, process = js_recv
 
