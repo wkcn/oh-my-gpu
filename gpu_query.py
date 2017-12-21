@@ -4,7 +4,7 @@ from utils import ps
 
 def get_gpu_info():
     state = [] # uuid, memory.free, memory.toal
-    process = [] # uuid, process_name, pid, used_memory
+    process = [] # uuid, process_name, pid, used_memory | username, name
     for g in [nv]:
         state.extend(g.get_gpu_state())
         process.extend(g.get_gpu_process())
