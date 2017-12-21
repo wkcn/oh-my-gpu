@@ -12,6 +12,7 @@ def get_gpu_info():
     uuid2gid = dict() # uuid -> gid
     for i, g in enumerate(state):
         uuid2gid[g["uuid"]] = i
+        g["gpu_id"] = i
 
     for i, p in enumerate(process):
         uuid = p["uuid"]
