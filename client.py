@@ -87,6 +87,8 @@ def show_user_use():
             uuid = p["uuid"]
             used_mem = mem2value(p["used_memory"])
             username = p["username"]
+            if used_mem < 200:
+                continue
             if username not in users:
                 users[username] = {
                         "used_mem": 0,
@@ -104,6 +106,6 @@ def show_user_use():
     print ("Username\tUsed GPUs\tAVG Memory\tUsed Memory\tMemory List")
     for u in lst:
         f = u[1]
-        print ("%s    \t%d          \t%d          \t%d          \t%s" % (u[0], len(f["used_gpus"]), f["avg_mem"], f["used_mem"], str(f["mem_lst"])))
+        print ("%s    \t%d          \t%d          \t%d        \t%s" % (u[0], len(f["used_gpus"]), f["avg_mem"], f["used_mem"], str(f["mem_lst"])))
 update_oh_my_gpu()
 show_user_use()
