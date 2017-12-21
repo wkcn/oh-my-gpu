@@ -1,5 +1,6 @@
 import psutil
 from gpus import nv
+from utils import ps
 
 def get_gpu_info():
     state = [] # uuid, memory.free, memory.toal
@@ -10,17 +11,18 @@ def get_gpu_info():
 
     uuid2gid = dict() # uuid -> gid
     for i, g in enumerate(state):
-        uuid2gid[g[0]] = i
+        uuid2gid[g["uuid"]] = i
 
     for i, p in enumerate(process):
-        uuid = p[0]
+        uuid = p["uuid"]
         gid = uuid2gid[uuid]
-        process[i][0] = gid
+        process[i]["gpu_id"] = gid
 
     for i, p in enumerate(process):
-        pro = psutil.Process(int(p[2]))
-        username = pro.username()
-        print (username)
+        pid = p["pid"]
+        username = ps.get_username_from_pid(pid) 
+        p["username"] = username
+    return process
 
 if __name__ == "__main__":
     print (get_gpu_info())

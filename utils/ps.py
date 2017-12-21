@@ -25,6 +25,7 @@ def get_username_from_pid(pid):
         return username
     except:
         pass
+
 if __name__ == "__main__":
     pid = os.getpid()
     print (get_username_from_pid(pid))
