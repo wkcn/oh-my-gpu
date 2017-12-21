@@ -59,7 +59,6 @@ def get_gpu_info():
     for name, s in info:
         if s is not None:
             print ("Connecting %s Successfully" % name)
-            print (s[0])
         else:
             print ("Connecting %s Fail" % name, e)
     return info
