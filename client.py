@@ -10,8 +10,12 @@ def send_json(data):
     for addr in config.SERVER_ADDRS:
         QUERY_ADDR = 'http://%s/query' % addr
         req = requests.post(QUERY_ADDR, data = bjson, headers = headers)
-        js_recv = json.loads(req.json())
-        lst.append(js_recv)
+        try:
+            jdata = req.json()
+            js_recv = json.loads(jdata)
+            lst.append(js_recv)
+        except:
+            lst.append(None)
     return lst
 
 def get_gpu_info():
@@ -24,3 +28,4 @@ def update_oh_my_gpu():
     send_json({"opcode" : "update_h_my_gpu"})
 
 get_gpu_info()
+update_oh_my_gpu()
