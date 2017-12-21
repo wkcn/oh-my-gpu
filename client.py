@@ -67,19 +67,17 @@ def update_oh_my_gpu():
     send_json({"opcode" : "update_oh_my_gpu"})
 
 
-def show_rest_mem():
-    info = get_gpu_info()
+def show_rest_mem(info):
     info.sort(key = lambda g : get_gpu_score(g[1][0]), reverse = True)
-    for m in info:
+    for i, m in enumerate(info):
         state = m[1][0]
         state.sort(key = lambda m : mem2value(m["memory.free"]), reverse = True)
-        print ("%s :" % m[0])
+        print ("%s [%d]:" % (m[0], i))
         for g in state:
             print ("    %s %s" % (g["gpu_id"], g["memory.free"]))
         print ("=============================")
 
-def show_user_use():
-    info = get_gpu_info()
+def show_user_use(info):
     users = dict()
     for i, m in enumerate(info):
         process = m[1][1]
@@ -108,4 +106,7 @@ def show_user_use():
         f = u[1]
         print ("%s    \t%d          \t%d          \t%d        \t%s" % (u[0], len(f["used_gpus"]), f["avg_mem"], f["used_mem"], str(f["mem_lst"])))
 update_oh_my_gpu()
-show_user_use()
+
+info = get_gpu_info()
+show_rest_mem(info)
+show_user_use(info)
