@@ -1,6 +1,7 @@
 import gpu_query
 import socket
 import json
+import os
 from flask import Flask, request, jsonify
 import config
 
@@ -14,10 +15,12 @@ app = Flask(__name__)
 def query():
     js_recv = request.json
     opcode = js_recv["opcode"]
-    if opcode == 0:
+    if opcode == "gpu_info":
         state, process = gpu_query.get_gpu_info()
         js_sent = json.dumps([state, process])
         return jsonify(js_sent)
+    elif opcde == "update_oh_my_gpu":
+        os.system("git pull")
 
 if __name__ == '__main__':
     app.run(host = HOST_IP, port = PORT, debug = True)
