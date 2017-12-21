@@ -23,8 +23,9 @@ def query():
         print ("Update oh-my-gpu")
         os.system("git pull")
         print ("Update Finished")
+        return jsonify({})
     print ("Invalid Code: {}".format(opcode))
-    return ""
+    return jsonify({})
 
 if __name__ == '__main__':
     app.run(host = HOST_IP, port = PORT, debug = True)
