@@ -89,4 +89,10 @@ root    	2          	3484          	6969        	['0:3997', '0:2972']
 
         Remember to open the port (**690 port [default]**) on the Windows firewall and the router (if it exists).
 
+    Run the command:
+
+    ```
+    python server.py
+    ```
+
 Any issue is welcome :-)
