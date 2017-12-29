@@ -11,6 +11,10 @@ print ("HOST IP: {}".format(HOST_IP))
 
 app = Flask(__name__)
 
+@app.route('/')
+def hello():
+    return "hello! oh my gpu :-)"
+
 @app.route('/query', methods = ['POST'])
 def query():
     js_recv = request.json
