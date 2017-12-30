@@ -7,7 +7,11 @@ try:
 except:
     import queue as Queue
 
-TIMEOUT = 30 
+TIMEOUT = 10
+
+for i, a in enumerate(config.SERVER_ADDRS):
+    if type(a) == str:
+        config.SERVER_ADDRS[i] = [a, a]
 
 def thread_get_gpu_info(name, addr, q, bjson):
     headers = {'Content-Type': 'application/json'}
@@ -26,19 +30,25 @@ def send_json(data):
 
     ts = []
     q = Queue.Queue()
-    for addr in config.SERVER_ADDRS:
-        if type(addr) is str:
-            addr = (addr, addr)
-        name, addr = addr
+    for a in config.SERVER_ADDRS:
+        name, addr = a
         ts.append(threading.Thread(target = thread_get_gpu_info, args = (name, addr, q, bjson)))
     for t in ts:
         t.setDaemon(True)
         t.start()
     for t in ts:
         t.join()
+    # Get Information
     lst = []
+    vis = set()
     while not q.empty():
-        lst.append(q.get())
+        r = q.get()
+        lst.append(r)
+        vis.add(r[0])
+    for a in config.SERVER_ADDRS:
+        name = a[0]
+        if name not in vis:
+            lst.append((name, None))
     return lst
 
 def mem2value(mem):
@@ -56,14 +66,18 @@ def get_gpu_info():
     '''
         [(server_name, [state, process]), ...]
     '''
+    buf = ''
     data = {"opcode" : "gpu_info"}
     info = send_json(data)
+    valid = []
     for name, s in info:
         if s is not None:
-            print ("Connecting %s Successfully" % name)
+            buf += ("Connecting %s Successfully" % name) + '\n'
+            valid.append((name, s))
         else:
-            print ("Connecting %s Fail" % name)
-    return info
+            buf += ("Connecting %s Fail" % name) + '\n'
+    buf += '\n'
+    return buf, valid
 
 def update_oh_my_gpu():
     send_json({"opcode" : "update_oh_my_gpu"})
@@ -127,6 +141,7 @@ def show_user_use(info):
 if __name__ == "__main__":
     update_oh_my_gpu()
 
-    info = get_gpu_info()
+    buf, info = get_gpu_info()
+    print (buf)
     show_rest_mem(info)
     show_user_use(info)

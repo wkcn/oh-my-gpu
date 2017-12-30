@@ -8,8 +8,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    info = client.get_gpu_info()
-    buf = client.get_rest_mem(info)
+    buf, info = client.get_gpu_info()
+    buf += client.get_rest_mem(info)
     buf += '\n'
 
     sp = buf.split('\n')
